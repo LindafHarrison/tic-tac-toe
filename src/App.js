@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import Board from './Board'
+import Score from './Score'
+
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.getInitialState()
+    this.select = this.select.bind(this)
+  }
+
+  getInitialState() {
+    return {
       playersTurn: 'X',
       position: {
         top: { left: null, middle: null, right: null },
@@ -29,14 +36,11 @@ class App extends Component {
         }
       },
       bust: {
-        yAxis: 0,
-        xAxis: 0,
-        diagonal: 0,
-        allOptions: 0
+        count: 0,
       },
-      score: { X: 0, O: 0 }
+      score: { X: 0, O: 0 },
+      win: false
     }
-    this.select = this.select.bind(this)
   }
 
   select(yAxis, xAxis) {
@@ -60,10 +64,7 @@ class App extends Component {
             let bust = updateStreaks.yAxis[yAxis].bust
             if (bust !== true) {
               bust = true
-              updatedBust.yAxis++
-              if (updatedBust.yAxis === 3) {
-                updatedBust.allOptions++
-              }
+              updatedBust.count++
             }
           }
         })()
@@ -78,10 +79,7 @@ class App extends Component {
             let bust = updateStreaks.xAxis[xAxis].bust
             if (bust !== true) {
               bust = true
-              updatedBust.xAxis++
-              if (updatedBust.xAxis === 3) {
-                updatedBust.allOptions++
-              }
+              updatedBust.count++
             }
           }
         })()
@@ -96,10 +94,7 @@ class App extends Component {
             } else {
               if (current.bust !== true) {
                 current.bust = true
-                updatedBust.diagonal++
-                if (updatedBust.diagonal === 2) {
-                  updatedBust.allOptions++
-                }
+                updatedBust.count++
               }
             }
           }
@@ -112,10 +107,7 @@ class App extends Component {
             } else {
               if (current.bust !== true) {
                 current.bust = true
-                updatedBust.diagonal++
-                if (updatedBust.diagonal === 2) {
-                  updatedBust.allOptions++
-                }
+                updatedBust.count++
               }
             }
           }
@@ -129,58 +121,38 @@ class App extends Component {
         bust: updatedBust
       })
 
-      console.log('bust: ', updatedBust)
-      let resetGame = () => {
-        this.setState({
-          position: {
-            top: { left: null, middle: null, right: null },
-            middle: { left: null, middle: null, right: null },
-            bottom: { left: null, middle: null, right: null }
-          },
-          streaks: {
-            yAxis: {
-              top: { streak: 0, player: null, bust: false },
-              middle: { streak: 0, player: null, bust: false },
-              bottom: { streak: 0, player: null, bust: false }
-            },
-            xAxis: {
-              left: { streak: 0, player: null, bust: false },
-              middle: { streak: 0, player: null, bust: false },
-              right: { streak: 0, player: null, bust: false }
-            },
-            diagonal: {
-              topLeft: { streak: 0, player: null, bust: false },
-              topRight: { streak: 0, player: null, bust: false }
-            }
-          },
-          bust: {
-            yAxis: 0,
-            xAxis: 0,
-            diagonal: 0,
-            allOptions: 0
-          }
-        })
-      }
-      // componentDidUpdate() {
-      if (updatedBust.allOptions === 3) {
-        alert("it's a TIE")
-        resetGame()
-      }
-
       if (updateStreaks.yAxis[yAxis].streak === 3 || updateStreaks.xAxis[xAxis].streak === 3 || updateStreaks.diagonal.topLeft.streak === 3 || updateStreaks.diagonal.topRight.streak === 3) {
-        alert("WINNER WINNER WINNER, you WON!!! :)")
         let score = { ...this.state.score }
         score[currentPlayer]++
         this.setState({
-          score: score
+          score: score,
+          win: true
         })
-        resetGame()
       }
-      // }
+
     }
     return
   }
 
+  componentDidUpdate() {
+    let bust = this.state.bust.count
+    let resetGame = () => {
+      let initialState = { ...this.getInitialState() }
+      initialState.score = this.state.score
+      initialState.playersTurn = this.state.playersTurn
+      this.setState(initialState)
+    }
+
+    if (bust === 8) {
+      alert("it's a TIE")
+      resetGame()
+    }
+
+    if (this.state.win) {
+      alert("WINNER WINNER WINNER, you WON!!! :)")
+      resetGame()
+    }
+  }
 
   render() {
     return (
@@ -192,11 +164,7 @@ class App extends Component {
           <p>
             Player {this.state.playersTurn}'s turn
           </p>
-          <div className='score'>
-            <p>Score: </p>
-            <p>X has {this.state.score.X}</p>
-            <p>O has {this.state.score.O} </p>
-          </div>
+          <Score score={this.state.score} />
           <Board position={this.state.position} select={this.select} />
         </header>
       </div>
