@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState()
-    this.select = this.select.bind(this)
+    this.gameLogic = this.gameLogic.bind(this)
   }
 
   getInitialState() {
@@ -43,8 +43,8 @@ class App extends Component {
     }
   }
 
-  select(yAxis, xAxis) {
-    if (this.state.position[yAxis][xAxis] !== null) alert('This block has already been played, please select another one')
+  gameLogic(yAxis, xAxis) {
+    if (this.state.position[yAxis][xAxis] !== null) alert('This block has already been played, please gameLogic another one')
     else {
       let updatedPosition = { ...this.state.position }
       let updatedBust = { ...this.state.bust }
@@ -165,7 +165,7 @@ class App extends Component {
             Player {this.state.playersTurn}'s turn
           </p>
           <Score score={this.state.score} />
-          <Board position={this.state.position} select={this.select} />
+          <Board position={this.state.position} gameLogic={this.gameLogic} />
         </header>
       </div>
     )

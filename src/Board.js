@@ -8,19 +8,19 @@ class Board extends Component {
     return (
       <Grid>
         <Row middle="lg">
-          <Block select={this.props.select} move={position.top.left} yAxis='top' xAxis='left' />
-          <Block select={this.props.select} positionClass='top' move={position.top.middle} yAxis='top' xAxis='middle' />
-          <Block select={this.props.select} move={position.top.right} yAxis='top' xAxis='right' />
+          <Block gameLogic={this.props.gameLogic} move={position.top.left} yAxis='top' xAxis='left' />
+          <Block gameLogic={this.props.gameLogic} positionClass='top' move={position.top.middle} yAxis='top' xAxis='middle' />
+          <Block gameLogic={this.props.gameLogic} move={position.top.right} yAxis='top' xAxis='right' />
         </Row>
         <Row middle="lg">
-          <Block select={this.props.select} positionClass='side' move={position.middle.left} yAxis='middle' xAxis='left' />
-          <Block select={this.props.select} positionClass='inner' move={position.middle.middle} yAxis='middle' xAxis='middle' />
-          <Block select={this.props.select} positionClass='side' move={position.middle.right} yAxis='middle' xAxis='right' />
+          <Block gameLogic={this.props.gameLogic} positionClass='side' move={position.middle.left} yAxis='middle' xAxis='left' />
+          <Block gameLogic={this.props.gameLogic} positionClass='inner' move={position.middle.middle} yAxis='middle' xAxis='middle' />
+          <Block gameLogic={this.props.gameLogic} positionClass='side' move={position.middle.right} yAxis='middle' xAxis='right' />
         </Row>
         <Row middle="lg">
-          <Block select={this.props.select} move={position.bottom.left} yAxis='bottom' xAxis='left' />
-          <Block select={this.props.select} positionClass="bottom" move={position.bottom.middle} yAxis='bottom' xAxis='middle' />
-          <Block select={this.props.select} move={position.bottom.right} yAxis='bottom' xAxis='right' />
+          <Block gameLogic={this.props.gameLogic} move={position.bottom.left} yAxis='bottom' xAxis='left' />
+          <Block gameLogic={this.props.gameLogic} positionClass="bottom" move={position.bottom.middle} yAxis='bottom' xAxis='middle' />
+          <Block gameLogic={this.props.gameLogic} move={position.bottom.right} yAxis='bottom' xAxis='right' />
         </Row>
       </Grid>
     )
