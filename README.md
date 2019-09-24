@@ -1,6 +1,6 @@
 ## Tic Tac Toe
 
-It's simply a game of Tic Tac Toe built using React.
+It's simply a game of Tic Tac Toe built using React.Good for a simple React reference, how to use componentDidUpdate, as well as multiple components.
 
 
 ## Available Scripts
