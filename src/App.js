@@ -142,16 +142,18 @@ class App extends Component {
       initialState.playersTurn = this.state.playersTurn
       this.setState(initialState)
     }
+    setTimeout(() => {
+      if (bust === 8) {
+        alert("it's a TIE")
+        resetGame()
+      }
 
-    if (bust === 8) {
-      alert("it's a TIE")
-      resetGame()
-    }
+      if (this.state.win) {
+        alert("WINNER WINNER WINNER, you WON!!! :)")
+        resetGame()
+      }
+    }, 1000)
 
-    if (this.state.win) {
-      alert("WINNER WINNER WINNER, you WON!!! :)")
-      resetGame()
-    }
   }
 
   render() {
